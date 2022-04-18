@@ -1,7 +1,9 @@
 import numpy as np
 from .._serializable import Serializable, Serializer, Deserializer
-from torch import Tensor
-
+try:
+    from torch import Tensor
+except ImportError:
+    pass
 
 class Model(Serializable):
     """ This is the superclass of all models.

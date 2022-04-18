@@ -5,7 +5,10 @@ from ._masker import Masker
 from .._serializable import Serializer, Deserializer
 import heapq
 from numba import jit
-from torch import Tensor
+try:
+    from torch import Tensor
+except ImportError:
+    pass
 
 # TODO: heapq in numba does not yet support Typed Lists so we can move to them yet...
 from numba.core.errors import NumbaPendingDeprecationWarning
