@@ -338,6 +338,9 @@ static PyObject *_cext_dense_tree_predict(PyObject *self, PyObject *args)
     ExplanationDataset data = ExplanationDataset(X, X_missing, y, NULL, NULL, num_X, M, 0);
 
     dense_tree_predict(out_pred, trees, data, model_output);
+    
+    // retrieve return value before python cleanup of objects
+    tfloat ret_value = (double)values[0];
 
     // clean up the created python objects 
     Py_XDECREF(children_left_array);
@@ -354,7 +357,7 @@ static PyObject *_cext_dense_tree_predict(PyObject *self, PyObject *args)
     Py_XDECREF(out_pred_array);
 
     /* Build the output tuple */
-    PyObject *ret = Py_BuildValue("d", (double)values[0]);
+    PyObject *ret = Py_BuildValue("d", ret_value);
     return ret;
 }
 
@@ -540,6 +543,9 @@ static PyObject *_cext_dense_tree_saabas(PyObject *self, PyObject *args)
 
     dense_tree_saabas(out_pred, trees, data);
 
+    // retrieve return value before python cleanup of objects
+    tfloat ret_value = (double)values[0];
+    
     // clean up the created python objects 
     Py_XDECREF(children_left_array);
     Py_XDECREF(children_right_array);
@@ -555,6 +561,6 @@ static PyObject *_cext_dense_tree_saabas(PyObject *self, PyObject *args)
     Py_XDECREF(out_pred_array);
 
     /* Build the output tuple */
-    PyObject *ret = Py_BuildValue("d", (double)values[0]);
+    PyObject *ret = Py_BuildValue("d", ret_value);
     return ret;
 }
